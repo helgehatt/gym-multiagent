@@ -1,8 +1,8 @@
 
 class Point(tuple):
 
-    def __new__(self, x, y):
-        return tuple.__new__(Point, (x, y))
+    def __new__(cls, x, y):
+        return tuple.__new__(cls, (x, y))
 
     @property
     def x(self):
