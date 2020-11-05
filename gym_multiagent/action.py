@@ -1,4 +1,3 @@
-
 from gym_multiagent.point import Point
 
 
@@ -27,12 +26,12 @@ class Action(tuple):
 
     def __repr__(self):
         if self.boxDirection is None:
-            return f'{self.actionType}({self.moveDirection})'
-        return f'{self.actionType}({self.moveDirection},{self.boxDirection})'
+            return f"{self.actionType}({self.moveDirection})"
+        return f"{self.actionType}({self.moveDirection},{self.boxDirection})"
 
     def __call__(self, agentLocation):
-        """Returns a tuple (freeLocation, boxLocation, newAgentLocation, newBoxLocation)
-        - `freeLocation` indicates which location should be free to perform this action.
+        """Returns a tuple (moveLocation, boxLocation, newAgentLocation, newBoxLocation)
+        - `moveLocation` indicates which location should be free to perform this action.
         - `boxLocation` indicates which location there should be a box to perform this action.
         - `newAgentLocation` indicates where the agent will move after performing this action.
         - `newBoxLocation` indicates where the box will move after performing this action.
@@ -41,7 +40,6 @@ class Action(tuple):
 
 
 class Move(Action):
-
     def __new__(cls, moveDirection):
         return Action.__new__(cls, moveDirection)
 
@@ -50,12 +48,11 @@ class Move(Action):
         - The agent moves according to `moveDirection`
         """
         newAgentLocation = agentLocation + LOCATION_CHANGE[self.moveDirection]
-        freeLocation = newAgentLocation
-        return (freeLocation, None, newAgentLocation, None)
+        moveLocation = newAgentLocation
+        return (moveLocation, None, newAgentLocation, None)
 
 
 class Push(Action):
-
     def __new__(cls, moveDirection, boxDirection):
         return Action.__new__(cls, moveDirection, boxDirection)
 
@@ -68,12 +65,11 @@ class Push(Action):
         boxLocation = agentLocation + LOCATION_CHANGE[self.boxDirection]
         newAgentLocation = boxLocation
         newBoxLocation = boxLocation + LOCATION_CHANGE[self.moveDirection]
-        freeLocation = newBoxLocation
-        return (freeLocation, boxLocation, newAgentLocation, newBoxLocation)
+        moveLocation = newBoxLocation
+        return (moveLocation, boxLocation, newAgentLocation, newBoxLocation)
 
 
 class Pull(Action):
-
     def __new__(cls, moveDirection, boxDirection):
         return Action.__new__(cls, moveDirection, boxDirection)
 
@@ -86,10 +82,11 @@ class Pull(Action):
         boxLocation = agentLocation + LOCATION_CHANGE[self.boxDirection]
         newAgentLocation = agentLocation + LOCATION_CHANGE[self.moveDirection]
         newBoxLocation = agentLocation
-        freeLocation = newAgentLocation
-        return (freeLocation, boxLocation, newAgentLocation, newBoxLocation)
+        moveLocation = newAgentLocation
+        return (moveLocation, boxLocation, newAgentLocation, newBoxLocation)
 
 
+# fmt: off
 N = 'N'; S = 'S'; W = 'W'; E = 'E'; NoOp = 'NoOp'
 
 LOCATION_CHANGE = {
@@ -109,3 +106,4 @@ POSSIBLE_ACTIONS = [
     Pull(N,W), Pull(S,W), Pull(W,S), Pull(E,S),
     Pull(N,E), Pull(S,E), Pull(W,E), Pull(E,W),
 ]
+# fmt: on

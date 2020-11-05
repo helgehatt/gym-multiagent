@@ -1,6 +1,4 @@
-
 class Point(tuple):
-
     def __new__(cls, x, y):
         return tuple.__new__(cls, (x, y))
 

@@ -1,3 +1,12 @@
 {
-    "python.pythonPath": "/home/helgehatt/anaconda3/envs/openai-gym/bin/python"
+    "python.pythonPath": "/home/helgehatt/anaconda3/envs/openai-gym/bin/python",
+    "saveAndRun": {
+        "commands": [
+            {
+                "match": "\\.py$",
+                "cmd": "black ${file} -l 120",
+                "useShortcut": false
+            }
+        ]
+    }
 }
