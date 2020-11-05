@@ -1,1 +1,1 @@
-from gym_multiagent import MultiagentEnv
+from gym_multiagent.envs.multiagent_env import MultiAgentEnv
