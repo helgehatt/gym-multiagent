@@ -1,5 +1,6 @@
 from time import sleep
 
+from IPython.display import clear_output
 import gym
 import gym_multiagent
 
@@ -10,13 +11,15 @@ level = """
 """
 
 env = gym.make("MultiAgent-v0", level=level)
-env.render()
 
 for _ in range(1000):
-    observation, reward, done, info = env.step([env.action_space.sample()])
+    action = max(1, env.action_space.sample())  # 0 is NoOp
+
+    observation, reward, done, info = env.step([action])
 
     if any(observation):
-        env.render()
+        clear_output(wait=True)
+        env.render(mode="human")
         sleep(0.5)
 
         if done:

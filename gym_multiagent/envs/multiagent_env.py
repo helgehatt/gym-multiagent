@@ -9,7 +9,7 @@ ACTION_LOOKUP = dict(enumerate(POSSIBLE_ACTIONS))
 
 
 class MultiAgentEnv(gym.Env):
-    metadata = {"render.modes": ["human"]}
+    metadata = {"render.modes": ["human", "raw"]}
 
     def __init__(self, level=None):
         self.world = World(level)
@@ -21,7 +21,7 @@ class MultiAgentEnv(gym.Env):
 
     def step(self, actions):
         changes = []
-        success = np.full(len(self.world.agents), True)
+        success = np.full(self.world.numAgents, True)
 
         for i, action in enumerate(map(ACTION_LOOKUP.get, actions)):
             if action == NoOp:
@@ -59,10 +59,16 @@ class MultiAgentEnv(gym.Env):
         self.world.reset()
 
     def render(self, mode="human"):
-        state_xy = np.where(self.world.state != " ")
-        level = self.world.fixed.copy()
-        level[state_xy] = self.world.state[state_xy]
-        print("\n".join("".join(row) for row in level))
+        if mode == "human":
+            from gym_multiagent.render import render
+
+            render(self.world)
+        else:
+            # Write current state to stdout as the default
+            state_xy = np.where(self.world.state != " ")
+            level = self.world.fixed.copy()
+            level[state_xy] = self.world.state[state_xy]
+            print("\n".join("".join(row) for row in level))
 
     def close(self):
         pass
