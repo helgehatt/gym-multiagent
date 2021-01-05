@@ -1,12 +1,10 @@
 {
     "python.pythonPath": "/home/helgehatt/anaconda3/envs/openai-gym/bin/python",
-    "saveAndRun": {
-        "commands": [
-            {
-                "match": "\\.py$",
-                "cmd": "black ${file} -l 120",
-                "useShortcut": false
-            }
-        ]
-    }
+    "files.insertFinalNewline": true,
+    "editor.formatOnSave": true,
+    "python.formatting.provider": "black",
+    "python.formatting.blackArgs": [
+        "--line-length",
+        "120"
+    ],
 }
